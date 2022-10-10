@@ -1,0 +1,159 @@
+---
+import NavShards from '@components/NavShards.astro';
+
+export interface Props {
+	title: string;
+	path?: string[];
+}
+
+const { title, path } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width' />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+		<title>{title}</title>
+	</head>
+	<body>
+		<div class='main'>
+			<nav>
+				{path ? <NavShards path={path} /> : null}
+				<h1 class='title'>{title}</h1>
+				<a href='/sitemap'>Sitemap</a>
+				<a href='/info'>Info</a>
+			</nav>
+			<hr />
+
+			<main>
+				<slot />
+			</main>
+		</div>
+
+		<style lang="scss" is:global>
+			:root {
+				--background: #2f383e;
+				--overlay: #455158;
+
+				--foreground: #c2c2c2;
+				--link: #969696;
+			}
+
+			html {
+				background-color: var(--background);
+				color: var(--foreground);
+				font-family: system-ui, sans-serif;
+			}
+
+			::selection {
+				background-color: var(--foreground);
+				color: var(--background);
+			}
+
+			:target {
+				border: 2px solid var(--overlay);
+				padding: 4px 8px;
+				border-radius: 8px;
+			}
+
+			.main {
+				margin: auto;
+				padding: 1.5rem;
+				max-width: 60ch;
+			}
+
+			nav h1 {
+				font-size: 3rem;
+				font-weight: 800;
+				margin: 0;
+			}
+
+			main {
+				h1 {
+					font-size: 2rem;
+					font-weight: 800;
+				}
+				h2 {
+					font-size: 1.75rem;
+					font-weight: 800;
+				}
+				h3 {
+					font-size: 1.5rem;
+					font-weight: 800;
+				}
+				h4 {
+					font-size: 1.25rem;
+					font-weight: 800;
+				}
+			}
+
+			ul {
+				padding-left: 24px;
+			}
+
+			a[href] {
+				/* color: #46d567; */
+				display: inline-block;
+				color: var(--link);
+				font-weight: 600;
+			}
+
+			hr {
+				border: 1px solid var(--overlay);
+				margin-top: 24px;
+				margin-bottom: 24px;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+					DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New,
+					monospace;
+			}
+
+			.astro-code {
+				padding: 8px;
+			}
+
+			p > code {
+				font-size: 0.9rem;
+				background-color: var(--overlay);
+				border-radius: 4px;
+				padding: 2px;
+			}
+
+			img {
+				display: block;
+				max-width: 100%;
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
+
+			blockquote {
+				border-left: 2px solid var(--link);
+				margin: 0px;
+				padding: 8px 16px;
+				color: var(--link);
+
+				p {
+					margin: 0px;
+				}
+			}
+
+			.page-embed {
+				margin-top: 4px;
+				margin-bottom: 4px;
+				padding: 8px;
+				border-radius: 8px;
+				background-color: var(--overlay);
+
+				a:last-of-type {
+					display: block;
+					margin-top: 8px;
+					color: var(--foreground);
+				}
+			}
+		</style>
+	</body>
+</html>

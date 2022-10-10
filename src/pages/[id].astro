@@ -1,0 +1,42 @@
+---
+import type { ParsedPath } from 'path';
+import Page from '@layouts/Page.astro';
+import path from 'path';
+import type { AstroComponentFactory } from 'astro/dist/runtime/server';
+
+interface Props {
+	path: string,
+	relative: string;
+	file: AstroComponentFactory;
+}
+
+export async function getStaticPaths() {
+	const files = await Astro.glob('../../vault/**/*.md');
+
+	const relative = ({ dir, name }: ParsedPath) => path.join(dir, name);
+
+	const data = files.map((file) => ({
+		// Absolute path to file
+		path: file.file,
+		// Gets the entry path relative to vault, i.e. `Folder/Entry`
+		relative: relative(
+			path.parse(path.relative(path.resolve('vault'), file.file))
+		),
+		name: path.parse(file.file).name,
+		Content: file.Content
+	}));
+
+	return data.map((data) => ({
+		params: {
+			id: data.relative.replaceAll('/', ':'),
+			// id: btoa(data.relative),
+		},
+		props: data
+	}));
+}
+const { Content, name, relative } = Astro.props;
+---
+
+<Page title={name} path={relative.split('/').slice(0, -1)}>
+	<Content />
+</Page>

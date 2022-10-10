@@ -1,0 +1,11 @@
+---
+import Page from '@layouts/Page.astro';
+
+const home = 'Home';
+
+const { Content } = await import(`../../vault/${home}.md`);
+---
+
+<Page title={home}>
+	<Content />
+</Page>

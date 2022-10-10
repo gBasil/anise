@@ -1,0 +1,59 @@
+---
+import type { Folder } from '@components/Folder.astro';
+import scan from '@helpers/scan';
+import Page from '@layouts/Page.astro';
+
+const folder = scan('vault');
+
+// Recursive function
+const count = (folder: Folder): number =>
+	folder.folders.reduce(
+		(pages, folder) => pages + count(folder),
+		folder.files.length
+	);
+const pages = count(folder);
+
+// @ts-ignore
+import pkg from '../../package.json';
+const { version } = pkg as any;
+
+// Build time
+const now = new Date().toLocaleString();
+---
+
+<Page title='Info'>
+	<table>
+		<tr>
+			<td>Page count</td>
+			<td>{pages}</td>
+		</tr>
+		<tr>
+			<td>Build date</td>
+			<td>{now}</td>
+		</tr>
+		<tr>
+			<td>Anise version</td>
+			<td>v{version}</td>
+		</tr>
+		<!-- <tr>
+			<td>Vault size</td>
+			<td>727mb</td>
+		</tr> -->
+
+		<style lang='scss'>
+			table {
+				border-radius: 8px;
+				overflow: clip;
+				tr {
+					&:nth-child(2n - 1) {
+						background-color: var(--overlay);
+					}
+				}
+
+				td {
+					padding: 8px;
+				}
+			}
+		</style>
+	</table>
+</Page>

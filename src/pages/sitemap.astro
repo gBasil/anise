@@ -1,0 +1,11 @@
+---
+import FolderComponent from '@components/Folder.astro';
+import Page from '@layouts/Page.astro';
+import scan from '@helpers/scan';
+
+const files = scan('vault');
+---
+
+<Page title='Sitemap'>
+	<FolderComponent files={files} />
+</Page>

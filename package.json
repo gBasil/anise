@@ -1,0 +1,20 @@
+{
+	"name": "anise",
+	"type": "module",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build && node copyMedia.js",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"astro": "^1.4.6"
+	},
+	"devDependencies": {
+		"@types/node": "^18.8.3",
+		"sass": "^1.55.0"
+	}
+}

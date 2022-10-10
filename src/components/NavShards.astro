@@ -1,0 +1,30 @@
+---
+export interface Props {
+	path: string[];
+}
+
+const { path } = Astro.props;
+---
+
+<!-- Clickable nagivation shards -->
+{
+	path
+		?.map((frag, i) => (
+			<a
+				href={`/sitemap#${path
+					.slice(0, i + 1)
+					.join('/')}`}
+			>{frag}</a>
+		))
+		.reduce(
+			(acc, x) =>
+				acc === null ? (
+					x
+				) : (
+					<>
+						{acc} / {x}
+					</>
+				),
+			null
+		)
+}

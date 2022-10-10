@@ -1,0 +1,45 @@
+---
+import { parse } from 'path';
+
+export interface Props {
+	files: Folder;
+	folderPath?: string[];
+}
+
+export type Folder = {
+	name: string;
+	files: string[];
+	folders: Folder[];
+};
+
+const {
+	files: { folders },
+} = Astro.props;
+const path = Astro.props.path || [];
+// File names without the '.md'
+const fileNames = Astro.props.files.files.map((file) => parse(file).name);
+---
+
+<ul>
+	{
+		folders.map((folder) => {
+			const folderPath = [...path, folder.name];
+
+			return (
+				<li>
+					<details open id={folderPath.join('/')}>
+						<summary>{folder.name}</summary>
+						<Astro.self files={folder} path={folderPath} />
+					</details>
+				</li>
+			);
+		})
+	}
+	{
+		fileNames.map((file) => (
+			<li>
+				<a href={`/${[...path, file].join(':')}`}>{file}</a>
+			</li>
+		))
+	}
+</ul>
